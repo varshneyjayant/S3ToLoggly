@@ -50,3 +50,6 @@ Using S3 Management Console click the bucket that contains your S3 logs.
   2. And optionally this tag:
     * **Key:** loggly-tag
     * **Value:** *s3_lambda_tag* (Or what ever you want.)
+
+
+**NOTE:** This script sends raw logs to Loggly. If you want to parse your own logs and convert them to JSON, you can extend the functionality of `exports.handler` function. JSON logs can be automatically parsed in Loggly. See more for <a href="https://www.loggly.com/docs/automated-parsing/#json" target="_blank">JSON Automated Parsing</a> in Loggly.
