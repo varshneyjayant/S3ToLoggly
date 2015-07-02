@@ -10,13 +10,8 @@ var _ = require('lodash')
 , csv = require('csv-streamify')
 , JSONStream = require('JSONStream')
 
-// Set LOGGLY_TOKEN to your Loggly customer token. It will look somethign like this:
-// LOGGLY_TOKEN = 'ea5058ee-d62d-4faa-8388-058646faa747'
-// Preferably, you should set the tag 'loggly-customer-tag' on the S3 bucket.
-
-// Optionally set a LOGGLY_TAG if you want to tag these logs in a certain way. For example:
-// LOGGLY_TAG = 'aws-elb-logs'
-// Preferably, you should set the 'loggly-tag' on the S3 bucket.
+// Set the tag 'loggly-customer-token'to set Loggly customer token on the S3 bucket.
+// Set the tag 'loggly-tag' to set Loggly tag on the S3 bucket.
 
 LOGGLY_URL_BASE = 'https://logs-01.loggly.com/bulk/'
 BUCKET_LOGGLY_TOKEN_NAME = 'loggly-customer-token'
