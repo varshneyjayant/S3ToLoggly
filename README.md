@@ -47,7 +47,7 @@ Using S3 Management Console click the bucket that contains your S3 logs.
   1. Under Properties -> Tags add the following tag:
     * **Key:** loggly-customer-token
     * **Value:** *your-loggly-customer-token*
-  2. And optionally this tag:
+
     * **Key:** loggly-tag
     * **Value:** *s3_lambda_tag* (Or what ever you want.)
 
