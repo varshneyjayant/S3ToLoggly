@@ -11,7 +11,7 @@ A Node.js AWS Lambda script that send S3 logs to Loggly
 git clone https://github.com/psquickitjayant/S3ToLoggly.git
 cd S3ToLoggly
 ```
-* Optionally, edit S3ToLoggly.js with proper Loggly customer token and optional log tags. (You can set these as tags on the S3 Bucket that contains the logs.)
+
 * Install require npm packages.
 ```
 npm install
