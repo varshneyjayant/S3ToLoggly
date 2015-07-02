@@ -45,14 +45,8 @@ For all of the AWS setup, I used the AWS console following [this example](http:/
     ### Configure the S3 buckets with tags the S3ToLoggly uses to know where to send logs.
 Using S3 Management Console click the bucket that contains your S3 logs.
   1. Under Properties -> Tags add the following tag:
-  ```
-    * **Key:** loggly-customer-token
-    * **Value:** *your-loggly-customer-token*
-  ```
-  ```
-    * **Key:** loggly-tag
-    * **Value:** *s3_lambda_tag* (Or what ever you want.)
-  ```
-
+ 
+    1. **Key:** loggly-customer-token , **Value:** *your-loggly-customer-token*
+    2. **Key:** loggly-tag, **Value:** *s3_lambda_tag* (Or what ever you want.)
 
 **NOTE:** This script sends raw logs to Loggly. If you want to parse your own logs and convert them to JSON, you can extend the functionality of `exports.handler` function. JSON logs can be automatically parsed in Loggly. See more for <a href="https://www.loggly.com/docs/automated-parsing/#json" target="_blank">JSON Automated Parsing</a> in Loggly.
