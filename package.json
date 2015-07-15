@@ -1,0 +1,21 @@
+{
+  "name": "S3ToLoggly",
+  "description": "A Node.js AWS Lambda script that send S3 logs to Loggly",
+  "author": "psquickitjayant",
+  "repository" : {
+    "type" : "git",
+    "url" : "git@github.com:psquickitjayant/S3ToLoggly.git"
+  },
+  "devDependencies": {},
+  "engine": "node >= 0.10",
+  "dependencies": 
+  { 
+    "async"         : "latest", 
+    "csv-streamify" : "latest",
+    "JSONStream"    : "latest",
+    "lodash"        : "latest",
+    "request"       : "latest"
+  },
+  "scripts": {
+  }
+}
