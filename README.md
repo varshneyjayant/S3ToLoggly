@@ -40,7 +40,7 @@ For all of the AWS setup, I used the AWS console following [this example](http:/
   2. Make sure the S3ToLoggly lambda function is selected, then click 'Actions->Add event source'
     * **Event source type:** S3
     * **Bucket:** Choose the S3 bucket that contains your logs.
-    * **Event type:** Put
+    * **Event type:** ObjectCreated (All)
     
     ### Configure the S3 buckets with tags the S3ToLoggly uses to know where to send logs.
 Using S3 Management Console click the bucket that contains your S3 logs.
