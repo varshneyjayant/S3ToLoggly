@@ -59,60 +59,59 @@ exports.handler = function(event, context) {
         console.log('S3ToLoggly skipping object of size zero');
     } 
     else {
-		function parseAndSendEventsToLoggly(){
-			//checking if decrypted the customer token
-			 if (!logglyConfiguration.customerToken) {
-				if (logglyConfiguration.tokenInitError) {
-					console.log('error in decrypt the token. Not retrying.');
-					return context.fail(logglyConfiguration.tokenInitError);
-				}
-				
-				//if not found then recheck after 100 ms
-				setTimeout(function () { parseAndSendEventsToLoggly() }, 100);
-				return;
-			}
-			
-			// Download the logfile from S3, and upload to loggly.
-			async.waterfall([
-				function buckettags(next) {
-					var params = {
-						Bucket: bucket /* required */
-					};
-					
-					LOGGLY_URL = logglyConfiguration.hostName + logglyConfiguration.customerToken + '/tag/' + encodeURIComponent(logglyConfiguration.tags);
-					s3.getObject({
-						Bucket: bucket,
-						Key: key
-					}, next);
-				},
+      function parseAndSendEventsToLoggly(){
+        //checking if decrypted the customer token
+         if (!logglyConfiguration.customerToken) {
+          if (logglyConfiguration.tokenInitError) {
+            console.log('error in decrypt the token. Not retrying.');
+            return context.fail(logglyConfiguration.tokenInitError);
+          }
+          
+          //if not found then recheck after 100 ms
+          setTimeout(function () { parseAndSendEventsToLoggly() }, 100);
+          return;
+        }
+        
+        // Download the logfile from S3, and upload to loggly.
+        async.waterfall([
+          function buckettags(next) {
+            var params = {
+              Bucket: bucket /* required */
+            };
+            
+            LOGGLY_URL = logglyConfiguration.hostName + logglyConfiguration.customerToken + '/tag/' + encodeURIComponent(logglyConfiguration.tags);
+            s3.getObject({
+              Bucket: bucket,
+              Key: key
+            }, next);
+          },
 
-				function upload(data, next) {
-					
-					// Stream the logfile to loggly.
-					var bufferStream = new Transform();
-					bufferStream.push(data.Body)
-					bufferStream.end()
-					bufferStream.pipe(request.post(LOGGLY_URL)).on('error', function(err) {next(err)}).on('end', function() {next()})
-				}
-			], 
-			function (err) {
-				if (err) {
-					console.error(
-					'Unable to read ' + bucket + '/' + key +
-					' and upload to loggly' +
-					' due to an error: ' + err
-					);
-					context.fail();
-				} else {
-					console.log(
-					'Successfully uploaded ' + bucket + '/' + key +
-					' to ' + LOGGLY_URL
-					);
-				}
-				context.done();
-			});
-		}
-	
-        parseAndSendEventsToLoggly();
+          function upload(data, next) {
+            
+            // Stream the logfile to loggly.
+            var bufferStream = new Transform();
+            bufferStream.push(data.Body)
+            bufferStream.end()
+            bufferStream.pipe(request.post(LOGGLY_URL)).on('error', function(err) {next(err)}).on('end', function() {next()})
+          }
+        ], 
+        function (err) {
+          if (err) {
+            console.error(
+            'Unable to read ' + bucket + '/' + key +
+            ' and upload to loggly' +
+            ' due to an error: ' + err
+            );
+            context.fail();
+          } else {
+            console.log(
+            'Successfully uploaded ' + bucket + '/' + key +
+            ' to ' + LOGGLY_URL
+            );
+          }
+          context.done();
+        });
+      }
+      parseAndSendEventsToLoggly();
     }
 };
