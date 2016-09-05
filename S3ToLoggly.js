@@ -60,8 +60,8 @@ exports.handler = function(event, context) {
                         next(err); console.log(err, err.stack); 
                     } // an error occurred
                     else {
-                        var s3tag = _.zipObject(_.pluck(data['TagSet'], 'Key'),
-                        _.pluck(data['TagSet'], 'Value'));
+                        var s3tag = _.zipObject(_.map(data['TagSet'], 'Key'),
+                        _.map(data['TagSet'], 'Value'));
 
                         if (s3tag[BUCKET_LOGGLY_TOKEN_NAME]) {
                             LOGGLY_URL = LOGGLY_URL_BASE + s3tag[BUCKET_LOGGLY_TOKEN_NAME];
