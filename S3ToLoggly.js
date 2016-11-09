@@ -17,6 +17,8 @@ LOGGLY_URL_BASE = 'https://logs-01.loggly.com/bulk/'
 BUCKET_LOGGLY_TOKEN_NAME = 'loggly-customer-token'
 BUCKET_LOGGLY_TAG_NAME = 'loggly-tag'
 
+LOGGLY_TAG_STRING = '';
+
 // Used if no S3 bucket tag doesn't contain customer token.
 // Note: You either need to specify a cutomer token in this script or via the S3 bucket tag else an error is logged.
 DEFAULT_LOGGLY_URL = null
@@ -66,9 +68,17 @@ exports.handler = function(event, context) {
                         if (s3tag[BUCKET_LOGGLY_TOKEN_NAME]) {
                             LOGGLY_URL = LOGGLY_URL_BASE + s3tag[BUCKET_LOGGLY_TOKEN_NAME];
                             
-                            if ( s3tag[BUCKET_LOGGLY_TAG_NAME] ) {
-                                LOGGLY_URL += '/tag/' + s3tag[BUCKET_LOGGLY_TAG_NAME];
+                            // handle tags that begin with BUCKET_LOGGLY_TAG_NAME
+                            for (var tag in s3tag) {
+                                if (tag.match(BUCKET_LOGGLY_TAG_NAME)) {
+		                    LOGGLY_TAG_STRING += s3tag[tag] + ',';
+                                }
                             }
+                            // add the tag string to the url
+                            if ( LOGGLY_TAG_STRING != '' ) {
+                                LOGGLY_URL += '/tag/' + LOGGLY_TAG_STRING.substring(0, LOGGLY_TAG_STRING.length - 1);
+                            }
+
                         } 
                         else {
                             LOGGLY_URL = DEFAULT_LOGGLY_URL
